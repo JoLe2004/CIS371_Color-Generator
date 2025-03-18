@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <button id="open-sidebar-button" onclick="openSidebar()">&#9776;</button>
+    <nav id="navbar">
+        <ul>
+            <li><button id="close-sidebar-button" onclick="closeSidebar()">&#10006;</button></li>
+            <li class="home-li"><a href="/" class="active-link">Home</a></li>
+            <li><a href="daily.ejs">Daily</a></li>
+            <li><a href="templates.ejs">Templates</a></li>
+            <li><a href="palettes.ejs">View Palettes</a></li>
+            <li><a href="login.ejs" class="accent-link">Login</a></li>
+        </ul>
+    </nav>
+
+    <div id="overlay" onclick="closeSidebar()"></div>
+
+    <ul>
+        <% result.forEach(color => { 
+             const hex = "#" + color.map(c => c.toString(16).padStart(2, "0")).join(""); 
+        %>
+          <li style="background-color: <%= hex %>">
+            HEX: <%= hex %>
+          </li>
+        <% }) %>
+    </ul>
+      
+      
+
+    <div class="main-container">
+        <div class="color-container">
+            <div class="color"></div>
+            <div class="row">
+                <span class="hexcode">35108</span>
+                <div class="icon">🔒</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const navbar = document.getElementById('navbar');
+
+        function openSidebar() {
+            navbar.classList.add('show');
+        }
+        function closeSidebar() {
+            navbar.classList.remove('show');
+        }
+    </script>
+</body>
+</html>
