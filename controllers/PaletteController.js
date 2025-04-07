@@ -1,17 +1,11 @@
 const Palette = require('../models/Palette')
+const User = require('../models/User')
 
 class PaletteController {
 
     async generate(req, res) {
         try {
-            const response = await fetch("http://colormind.io/api/",
-                {method: "POST", 
-                 headers: {"Content-Type": "application/json"},
-                 body: JSON.stringify({model: "default", input: ["N", "N", "N", "N", "N"]})
-                })
-            
-            const result = await response.json()
-            res.render('index', { result: result["result"] })
+            res.render('index', { page: 'home', showSettings: req.session.user != undefined })
         } catch (error) {
             res.status(500).json({message: error.message})
         }
@@ -19,18 +13,18 @@ class PaletteController {
 
     async index(req, res) {
         try {
-            const palettes = await Palette.find({});
-            res.render('index', { palettes: palettes })
+            const palettes = await Palette.find({ userID: req.session.user });
+            res.render('paletteIndex', { palettes: palettes, page: 'palettes', showSettings: req.session.user != undefined });
         } catch (error) {
-            res.status(500).json({message: error.message})
+            res.status(500).json({ message: error.message });
         }
     }
 
     async show(req, res) {
         try {
-            const { id } = req.params;
+            const id = req.params.id;
             const palette = await Palette.findById(id);
-            res.status(200).json(palette)
+            res.render('paletteEdit', { palette: palette, page: 'palettes', showSettings: req.session.user != undefined });
         } catch (error) {
             res.status(500).json({message: error.message})
         }
@@ -38,26 +32,34 @@ class PaletteController {
 
     async create(req, res) {
         try {
-            const palette = await Palette.create(req.body);
-            res.status(200).json(palette);
+            console.log("creating palette")
+            const colors = JSON.parse(req.body.colors);
+            const palette = new Palette({
+                name: req.body.name || "New Palette",
+                colors: colors,
+                userID: req.session.user
+            });
+    
+            await palette.save();
+            await User.findByIdAndUpdate(req.session.user, { $push: { palettes: palette._id } });
+            const palettes = await Palette.find({ userID: req.session.user });
+            res.render('paletteIndex', { palettes: palettes, page: 'palettes', showSettings: req.session.user != undefined });
         } catch (error) {
             res.status(500).json({message: error.message})
         }
     }
 
-    async edit(req, res) {
-    }
-
     async update(req, res) {
         try {
-            const { id } = req.params;
-            const palette = await Palette.findByIdAndUpdate(id, req.body);
+            const id = req.params.id;
+            const colors = JSON.parse(req.body.colors);
+            const name = req.body.name;
+            const palette = await Palette.findByIdAndUpdate(id, { $set: { name: name, colors: colors } });
             if (!palette) {
-                return res.status(404).json({message: "Palette not found"})
+                return res.status(404).json({message: "Palette not found"});
             }
-    
-            updatedPalette = await Palette.findById(id);
-            res.status(200).json(palette)
+            const palettes = await Palette.find({ userID: req.session.user });
+            res.status(201).render('paletteIndex', { palettes: palettes, page: 'palettes', showSettings: req.session.user != undefined });
         } catch (error) {
             res.status(500).json({message: error.message})
         }
@@ -65,13 +67,15 @@ class PaletteController {
 
     async delete(req, res) {
         try {
-            const { id } = req.params;
-            const palette = await Palette.findByIdAndDelete(id);
+            const id = req.params.id;
+            await User.findOneAndUpdate({_id: req.session.user}, {$pull: {palettes: id}})
+            const palette = await Palette.findByIdAndDelete(id)
             if (!palette) {
                 return res.status(404).json({ message: "Palette not found" })
             }
-    
-            res.status(200).json({message: "Palette deleted successfully"})
+            
+            const palettes = await Palette.find({ userID: req.session.user });
+            res.status(201).render('paletteIndex', { palettes: palettes, page: 'palettes', showSettings: req.session.user != undefined });
         } catch (error) {
             res.status(500).json({message: error.message})
         }

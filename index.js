@@ -1,40 +1,111 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session')
 const mongoose = require('mongoose');
 const PaletteController = require('./controllers/PaletteController')
+const UserController = require('./controllers/UserController')
+const LoginController = require('./controllers/LoginController')
 const paletteController = new PaletteController();
+const userController = new UserController()
+const loginController = new LoginController()
 
 const app = express();
 const port = 3000;
 
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: 'x7K9vJqP2mZtW4rYBfC8L1dX6NsTgA5oM',
+    cookie: { maxAge: 30 * 60 * 10000 }
+}))
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        next()
+    } else {       
+        req.session.returnTo = req.originalUrl
+        res.redirect('/login')
+    }
+}
 app.use(express.static('public'));
 app.use(express.json())
+
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 app.set('view engine', 'ejs');
 
+
+// Home
 app.get('/', (req, res) => {
     paletteController.generate(req, res);
 })
 
-app.get('/api/palettes', (req, res) =>{
+
+// Palette CRUD
+app.get('/palettes', isAuthenticated, (req, res) =>{
     paletteController.index(req, res);
 })
 
-app.get('/api/palette/:id', async (req, res) =>{
+app.get('/palette/:id', isAuthenticated, (req, res) =>{
     paletteController.show(req, res);
 })
 
-app.post('/api/palettes', async (req, res) =>{
+app.post('/palettes', isAuthenticated, (req, res) =>{
     paletteController.create(req, res);
 })
 
-app.put('/api/palette/:id', async (req, res) =>{
+app.post('/palette/:id', isAuthenticated, (req, res) =>{
     paletteController.update(req, res);
 })
 
-app.delete('/api/palette/:id', (req, res) =>{
+app.delete('/palette/:id', isAuthenticated, (req, res) =>{
     paletteController.delete(req, res);
 })
 
+
+// Templates
+app.get('/templates', (req, res) =>{
+    res.render('templates', { page: 'templates', showSettings: req.session.user != undefined });
+})
+
+
+// Login 
+app.get('/login', (req, res) => {
+    loginController.loginPage(req, res)
+})
+
+app.post('/login', (req, res) => {
+    loginController.requestLogin(req, res)
+})
+
+app.get('/logout', (req, res) => {
+    loginController.logout(req, res)
+})
+
+
+// User CRUD
+app.get('/signup', (req, res) => {
+    res.render('signup', { page: 'login', showSettings: req.session.user != undefined})
+})
+
+app.get('/settings', isAuthenticated, (req, res) => {
+    userController.show(req, res);
+})
+
+app.post('/settings', isAuthenticated, (req, res) => {
+    userController.update(req, res);
+});
+
+app.post('/signup', (req, res) => {
+    userController.create(req, res);
+})
+
+app.delete('/settings', isAuthenticated, (req, res) => {
+    userController.delete(req, res);
+})
 
 
 mongoose.connect(process.env.MONGO_URI)

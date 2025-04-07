@@ -10,11 +10,11 @@ const PaletteSchema = new mongoose.Schema(
     colors: { 
       type: [String], 
       required: true 
-    }
-    /*userID: {
+    },
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }*/
+    }
   },
   {
     timestamps: true

@@ -5,52 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/colorjoe.css">
 </head>
 <body>
-    <button id="open-sidebar-button" onclick="openSidebar()">&#9776;</button>
-    <nav id="navbar">
-        <ul>
-            <li><button id="close-sidebar-button" onclick="closeSidebar()">&#10006;</button></li>
-            <li class="home-li"><a href="/" class="active-link">Home</a></li>
-            <li><a href="daily.ejs">Daily</a></li>
-            <li><a href="templates.ejs">Templates</a></li>
-            <li><a href="palettes.ejs">View Palettes</a></li>
-            <li><a href="login.ejs" class="accent-link">Login</a></li>
-        </ul>
-    </nav>
+    
+    <%- include('navbar') %>
 
-    <div id="overlay" onclick="closeSidebar()"></div>
-
-    <ul>
-        <% result.forEach(color => { 
-             const hex = "#" + color.map(c => c.toString(16).padStart(2, "0")).join(""); 
-        %>
-          <li style="background-color: <%= hex %>">
-            HEX: <%= hex %>
-          </li>
-        <% }) %>
-    </ul>
-      
-      
-
-    <div class="main-container">
-        <div class="color-container">
-            <div class="color"></div>
-            <div class="row">
-                <span class="hexcode">35108</span>
-                <div class="icon">🔒</div>
-            </div>
+    <div id="content-container">
+        <div id="main-container"></div>
+        <div id="button-row">
+            <button id="generate" onclick="generate();"><i class='bx bx-refresh'></i> Generate</button>
+            <form id="save-palette-form" action="/palettes" method="POST">
+                <input type="hidden" name="colors" id="palette-colors">
+                <button type="submit">
+                    <i class='bx bx-save'></i> Save Palette
+                </button>
+            </form>
         </div>
     </div>
-    <script>
-        const navbar = document.getElementById('navbar');
 
-        function openSidebar() {
-            navbar.classList.add('show');
-        }
-        function closeSidebar() {
-            navbar.classList.remove('show');
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/onecolor@3.1.0/one-color-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/colorjoe@1.0.2/dist/colorjoe.min.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>

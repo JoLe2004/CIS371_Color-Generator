@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/colorjoe.css">
+</head>
+<body>
+    <%- include('navbar') %>
+
+    <div id="content-container">
+        <div class="palette">
+            <h3><input id="name-input" type="text" name="name" value="<%= palette.name %>" /></h3>
+                <div id="main-container">
+                <% palette.colors.forEach(color => { %>
+                    <div class="color-container">
+                        <div class="color" style="background-color: <%= color %>"><div class="color-text"><%= color %></div></div>
+                        <div class="row">
+                            <span class="hexcode"><%= color %></span>
+                            <div class="tool"><i class='bx bxs-lock-open'></i></div>
+                            <div class="tool" onclick="displayJoe(this)"><i class='bx bx-slider'></i></div>
+                            <div class="tool" onclick="swapLeft(this)"><i class='bx bxs-chevron-left'></i></div>
+                            <div class="tool" onclick="swapRight(this)"><i class='bx bxs-chevron-right'></i></div>
+                        </div>
+                    </div>
+                <% }) %>
+                </div>
+                <div id="button-row">
+                    <button class="back" onclick="location.href='/palettes'">Back</button>
+                    <form id="update-form" action="/palette/<%= palette._id %>" method="POST">
+                        <input type="hidden" name="name" id="palette-name">
+                        <input type="hidden" name="colors" id="palette-colors">
+                        <button type="submit">Update</button>
+                    </form>
+                    <form action="/palette/<%= palette._id %>?_method=DELETE" method="POST">
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this palette?');">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+        </div>
+    </div>    
+
+    <script src="https://cdn.jsdelivr.net/npm/onecolor@3.1.0/one-color-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/colorjoe@1.0.2/dist/colorjoe.min.js"></script>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function toggleSidebar() {
+            navbar.classList.toggle("show")
+        }
+
+        colorList = "<%= palette.colors %>".split(",");
+
+        function displayJoe(button){
+            let existingPicker = document.getElementById("picker");
+            if (existingPicker) {
+                existingPicker.remove();
+            }        
+            let pickerDiv = document.createElement("div");
+            pickerDiv.id = "picker";
+
+            button.parentNode.insertBefore(pickerDiv, button.nextSibling);
+                
+            const joe = colorjoe.rgb(pickerDiv, button.parentNode.previousElementSibling.style.backgroundColor);
+            joe.on("change", color => {
+                button.parentNode.previousElementSibling.style.backgroundColor = color.hex()
+                button.parentNode.previousElementSibling.firstElementChild.textContent = color.hex().toUpperCase()
+                button.parentNode.firstElementChild.textContent = color.hex().toUpperCase()
+            });
+            joe.on("done", color => {
+                let index = Array.from(button.parentElement.parentElement.parentElement.children).indexOf(button.parentElement.parentElement);
+                colorList[index] = color.hex().toUpperCase()
+            });
+
+            function closePicker(event) {
+                if (!pickerDiv.contains(event.target) && !button.contains(event.target)) {
+                    pickerDiv.remove();
+                    document.removeEventListener('click', closePicker);
+                }
+            }
+            document.addEventListener('click', closePicker);
+        }
+
+        function swapLeft(button) {
+            let containers = document.getElementsByClassName("color-container");
+            let container = button.parentNode.parentNode;
+            let prev = container.previousElementSibling;
+            if (prev) {
+                container.parentNode.insertBefore(container, prev);
+                i = Array.from(containers).indexOf(container)
+                j = Array.from(containers).indexOf(prev)
+                let temp = colorList[i]
+                colorList[i] = colorList[j]
+                colorList[j] = temp
+            }
+        }
+
+        function swapRight(button) {
+            let containers = document.getElementsByClassName("color-container");
+            let container = button.parentNode.parentNode;
+            let next = container.nextElementSibling;
+            if (next) {
+                container.parentNode.insertBefore(next, container);
+                i = Array.from(containers).indexOf(container)
+                j = Array.from(containers).indexOf(next)
+                let temp = colorList[i]
+                colorList[i] = colorList[j]
+                colorList[j] = temp
+            }
+        }
+        
+        document.getElementById("update-form").addEventListener("submit", function(event) {
+            const name = document.getElementById("name-input").value
+            document.getElementById("palette-name").value = name;
+            document.getElementById("palette-colors").value = JSON.stringify(colorList);
+        });
+    </script>
+</body>
+</html>

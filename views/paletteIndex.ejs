@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <%- include('navbar') %>
+
+    <div id="content-container">
+        <% palettes.forEach(palette => { %>
+            <div class="palette">
+                <h2><%= palette.name %></h2>
+                <div id="main-container">
+                    <% palette.colors.forEach(color => { %>
+                        <div class="color-container">
+                            <div class="color" style="background-color: <%= color %>"><div class="color-text"><%= color %></div></div>
+                            <div class="row">
+                                <span class="hexcode"><%= color %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+                <button onclick="location.href='/palette/<%= palette._id %>'">Edit</button>
+            </div>
+        <% }) %>
+    </div>    
+    <script>
+        const navbar = document.getElementById('navbar');
+        function toggleSidebar() {
+            navbar.classList.toggle("show")
+        }
+    </script>
+</body>
+</html>

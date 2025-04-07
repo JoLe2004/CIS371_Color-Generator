@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <%- include('navbar') %>
+    
+    <div class="user-info">
+        <form action="/settings" method="POST">
+            <h1>Username</h1>
+            <input class="login-input" type="text" name='username' value="<%= user.username %>"/>
+            <h1>Password</h1>
+            <input class="login-input" type="text" name='password' value="<%= user.password %>"/>
+            <button type="submit">Update Settings</button>
+        </form>
+        <button onclick="location.href='/logout'" class="logout-button">Logout</button>
+        <form action="/settings?_method=DELETE" method="POST">
+            <button type="submit" onclick="return confirm('Are you sure you want to delete your account?');">
+                Delete Account
+            </button>
+        </form>
+    </div>
+    
+    <script>
+        const navbar = document.getElementById('navbar');
+        function toggleSidebar() {
+            navbar.classList.toggle("show")
+        }
+    </script>
+</body>
+</html>

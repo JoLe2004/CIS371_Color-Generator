@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/colorjoe.css">
+</head>
+<body>
+    
+    <%- include('navbar') %>
+
+    <div id="content-container">
+        <div id="main-container"></div>
+        <div id="button-row">
+            <button id="generate" onclick="generate();"><i class='bx bx-refresh'></i> Generate</button>
+            <form id="save-palette-form" action="/palettes" method="POST">
+                <input type="hidden" name="colors" id="palette-colors">
+                <button type="submit">
+                    <i class='bx bx-save'></i> Save Palette
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="template-container">
+        <div id="template-content">
+            <div class="column">
+                <div class="template-box profile">
+                    <div class="profile-picture"></div>
+                    <p class="profile-username">Username</p>
+                    <p class="profile-text">Insert desired text here</p>
+                    <div id="button-row">
+                        <button>Message</button>
+                        <button>Follow</button>
+                    </div>
+                </div>
+                <div class="template-box bio">
+                    <span><i class='bx bx-world'></i>Website</span>
+                    <span><i class='bx bxl-linkedin'></i>LinkedIn</span>
+                    <span><i class='bx bxl-github'></i>Github</span>
+                    <span><i class='bx bxl-instagram'></i>Instagram</span>
+                </div>
+            </div>
+            <div class="column">
+                <div class="template-box top-box">
+                
+                </div>
+                <div class="column-row">
+                    <div class="template-box bottom-box"></div>
+                    <div class="template-box bottom-box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/onecolor@3.1.0/one-color-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/colorjoe@1.0.2/dist/colorjoe.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>
