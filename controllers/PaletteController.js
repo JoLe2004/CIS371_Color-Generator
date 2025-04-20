@@ -32,7 +32,6 @@ class PaletteController {
 
     async create(req, res) {
         try {
-            console.log("creating palette")
             const colors = JSON.parse(req.body.colors);
             const palette = new Palette({
                 name: req.body.name || "New Palette",

@@ -1,15 +1,15 @@
 
 
 <button id="open-sidebar-button" onclick="toggleSidebar()">&#9776;</button>
-<nav id="navbar">
+<nav id="navbar" class="main">
     <ul>
         <li><button id="close-sidebar-button" onclick="toggleSidebar()">&#10006;</button></li>
-        <li class="home-li"><a href="/" class="nav-link <%= page === 'home' ? 'active-link' : '' %>">Home</a></li>
-        <li><a href="/daily" class="nav-link <%= page === 'daily' ? 'active-link' : '' %>">Daily</a></li>
+        <li class="home-li"><a href="/" class="nav-link <%= page === 'home' ? 'active-link' : '' %>">Paletteable<i class='bx bxs-home' ></i></a></li>
+        <li><a href="/color_guess" class="nav-link <%= page === 'colorGuess' ? 'active-link' : '' %>">Color Guess<i class='bx bx-question-mark'></i></a></li>
         <li><a href="/templates" class="nav-link <%= page === 'templates' ? 'active-link' : '' %>">Templates<i class='bx bx-dock-bottom'></i></a></li>
-        <li><a href="/palettes" class="nav-link <%= page === 'palettes' ? 'active-link' : '' %>">View Palettes<i class='bx bx-palette' ></i></a></li>
+        <li><a href="/palettes" class="nav-link <%= page === 'palettes' ? 'active-link' : '' %>">View Palettes<i class='bx bx-palette'></i></a></li>
         <% if (showSettings) { %>
-        <li><a href="/settings" class="nav-link <%= page === 'settings' ? 'active-link' : '' %>">Settings<i class='bx bx-cog' ></i></a></li>
+        <li><a href="/settings" class="nav-link <%= page === 'settings' ? 'active-link' : '' %>">Settings<i class='bx bx-cog'></i></a></li>
         <% } else { %>
         <li><a href="/login" class="nav-link accent-link <%= page === 'login' ? 'active-link' : '' %>">Login<i class='bx bx-log-in'></i></a></li>
         <% } %>

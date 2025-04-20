@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paletteable</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/colorjoe.css">
+    <style>
+        body {
+            text-align: center;
+        }
+      
+        #grid {
+            display: grid;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+      
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .hints {
+            display: flex;
+            justify-content: center;
+            gap: 8.33%;
+        }
+
+        .hints i {
+            font-size: 2em;
+        }
+
+        .hints .green {
+            color: limegreen;
+        }
+        
+        .hints .red {
+            color: crimson;
+        }
+        
+      
+        .cell {
+            width: 3.5em;
+            height: 3.5em;
+            border: 2px solid #ccc;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            color: #CCC;
+        }
+      
+        .correct {
+            background-color: #6aaa64;
+            color: white;
+            border-color: #6aaa64;
+        }
+      
+        #result {
+            color: white;
+            font-weight: bold;
+        }
+
+        .hash {
+            position: absolute;
+            translate: -1250% 25%;
+            font-size: 2rem;
+            color: #CCC;
+        }
+
+        @property --angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .color-container {
+            position: relative;
+        }
+
+        .color-container::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: conic-gradient(from var(--angle), transparent 80%, #FF0000, #FF7F00,#FFFF00,#00FF00,#0000FF,#4B0082,#8B00FF);
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            z-index: -1;
+            padding: 3px;
+            border-radius: 10px;
+            animation: 3s spin linear infinite;
+        }
+
+        .color-container::after {
+            animation: spin 3s linear infinite;
+        }
+
+        .color {
+            border-radius: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                --angle: 360deg;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cell {
+                width: 2em;
+                height: 2em;
+            }
+
+            .hash {
+                position: absolute;
+                translate: -1050% 10%;
+                font-size: 1.5rem;
+                color: #CCC;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <%- include('navbar') %>
+
+    <div id="content-container" style="margin-top: 2em;">
+        <div id="main-container"></div>
+    </div>
+    <div id="result" style="margin: 1em;"></div>
+    <div id="grid"></div>
+
+    </div>
+    <script type="module">
+        import GameModel from "./GameModel.js";
+        import GameController from "./GameController.js";
+
+        const secretColor = Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, "0").toUpperCase();
+        console.log("Secret:", secretColor);
+
+        let container = document.getElementById("main-container")
+        let colorContainer = document.createElement("div");
+        colorContainer.classList.add("color-container");
+        let color = document.createElement("div");
+        color.classList.add("color")
+        color.style.backgroundColor = "#" + secretColor;
+        let colorText = document.createElement("div");
+        colorText.classList.add("color-text");
+        colorText.textContent = "#" + secretColor;
+        color.appendChild(colorText);
+        colorContainer.appendChild(color)
+        container.appendChild(colorContainer)
+
+        const model = new GameModel(secretColor);
+        new GameController(model);
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        function toggleSidebar() {
+            navbar.classList.toggle("show")
+        }
+    </script>
+</body>
+</html>

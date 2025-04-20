@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Paletteable</title>
     <link rel="stylesheet" href="/styles.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <%- include('navbar') %>
 
+    <% if (palettes.length === 0) { %>
+            <h2 style="justify-self:center; margin-top: 15em;">No Palettes Saved</h2>
+    <% } %>
     <div id="content-container">
         <% palettes.forEach(palette => { %>
             <div class="palette">
@@ -24,7 +27,7 @@
                         </div>
                     <% }) %>
                 </div>
-                <button onclick="location.href='/palette/<%= palette._id %>'">Edit</button>
+                <button onclick="location.href='/palette/<%= palette._id %>'" style="margin-bottom: 5em;">Edit</button>
             </div>
         <% }) %>
     </div>    

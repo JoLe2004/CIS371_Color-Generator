@@ -82,10 +82,10 @@ function placeColors() {
 }
 
 function replaceColors() {
+    const template = document.getElementById("template-container");
     let containers = document.getElementsByClassName("color");
     let hexcodes = document.getElementsByClassName("hexcode");
-    let colorTexts = document.getElementsByClassName("color-text")
-    let boxes = document.getElementsByClassName("template-box")
+    let colorTexts = document.getElementsByClassName("color-text");
 
     for (let i = 0; i < 5; i++) {
         let overlay = document.createElement("div");
@@ -105,10 +105,8 @@ function replaceColors() {
             overlay.remove();
         }, 600);
     }
-    if (boxes) {
-        for (const box of boxes) {
-            box.style.backgroundColor = colorList[0];
-        }
+    if (template) {
+        updateTemplate();
     }
 }
 
@@ -127,6 +125,7 @@ function toggleLock(button) {
 }
 
 function displayJoe(button){
+    const template = document.getElementById("template-container");
     let existingPicker = document.getElementById("picker");
     if (existingPicker) {
         existingPicker.remove();
@@ -145,6 +144,9 @@ function displayJoe(button){
     joe.on("done", color => {
         let index = Array.from(button.parentElement.parentElement.parentElement.children).indexOf(button.parentElement.parentElement);
         colorList[index] = color.hex()
+        if (template) {
+            updateTemplate();
+        }
     });
 
     function closePicker(event) {
@@ -157,6 +159,7 @@ function displayJoe(button){
 }
 
 function swapLeft(button) {
+    const template = document.getElementById("template-container");
     let containers = document.getElementsByClassName("color-container");
     let container = button.parentNode.parentNode;
     let prev = container.previousElementSibling;
@@ -171,9 +174,13 @@ function swapLeft(button) {
         colorList[i] = colorList[j]
         colorList[j] = temp
     }
+    if (template) {
+        updateTemplate();
+    }
 }
 
 function swapRight(button) {
+    const template = document.getElementById("template-container");
     let containers = document.getElementsByClassName("color-container");
     let container = button.parentNode.parentNode;
     let next = container.nextElementSibling;
@@ -188,7 +195,34 @@ function swapRight(button) {
         colorList[i] = colorList[j]
         colorList[j] = temp
     }
+    if (template) {
+        updateTemplate();
+    }
 }
+
+function updateTemplate() {
+    const classNames = ["one", "two", "three", "four", "five"];
+
+    classNames.forEach((className, index) => {
+        const elements = document.getElementsByClassName(className);
+        for (const element of elements) {
+            if (element.classList.contains("text")) {
+                element.style.color = colorList[index];
+            } else {
+                element.style.backgroundColor = colorList[index];
+                if (element.tagName.toLowerCase() === "button") {
+                    element.addEventListener("mouseenter", () => {
+                        element.style.backgroundColor = "#aaa";
+                    });
+                    element.addEventListener("mouseleave", () => {
+                        element.style.backgroundColor = colorList[index];
+                    });
+                }
+            }
+        }
+    });
+}
+
 
 placeColors();
 generate();

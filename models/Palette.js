@@ -5,11 +5,12 @@ const PaletteSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      default: "Palette"
+      default: "New Palette"
     },
     colors: { 
       type: [String], 
-      required: true 
+      required: true, 
+      validate: [arr => arr.length > 0, 'Palette must have at least one color.']
     },
     userID: {
         type: mongoose.Schema.Types.ObjectId,

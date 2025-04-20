@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Paletteable</title>
     <link rel="stylesheet" href="/styles.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="/colorjoe.css">
@@ -25,32 +25,75 @@
         </div>
     </div>
 
-    <div id="template-container">
+    <div id="template-container" class="five">
         <div id="template-content">
             <div class="column">
-                <div class="template-box profile">
+                <div class="template-box profile four">
                     <div class="profile-picture"></div>
-                    <p class="profile-username">Username</p>
-                    <p class="profile-text">Insert desired text here</p>
+                    <p class="profile-username one text">Username</p>
+                    <p class="profile-text one text">Insert desired text here</p>
                     <div id="button-row">
-                        <button>Message</button>
-                        <button>Follow</button>
+                        <button class="message">Message</button>
+                        <button class="follow">Follow</button>
                     </div>
                 </div>
-                <div class="template-box bio">
-                    <span><i class='bx bx-world'></i>Website</span>
-                    <span><i class='bx bxl-linkedin'></i>LinkedIn</span>
-                    <span><i class='bx bxl-github'></i>Github</span>
-                    <span><i class='bx bxl-instagram'></i>Instagram</span>
+                <div class="template-box bio four">
+                    <span><i class='bx bx-world five text'></i><span class="label one text">Website</span><span class="bio-link one text">https://website.com</span></span>
+                    <hr/>
+                    <span><i class='bx bxl-linkedin five text'></i><span class="label one text">LinkedIn</span><span class="bio-link one text">https://linkedin.com</span></span>
+                    <hr/>
+                    <span><i class='bx bxl-github five text'></i><span class="label one text">Github</span><span class="bio-link one text">https://github.com</span></span>
+                    <hr/>
+                    <span><i class='bx bxl-instagram five text'></i><span class="label one text">Instagram</span><span class="bio-link one text">https://instagram.com</span></span>
                 </div>
             </div>
             <div class="column">
                 <div class="template-box top-box">
-                
+                    <span><strong class="one text">Full Name:</strong><span class="placeholder one text">Placeholder Name</span></span>
+                    <hr/>
+                    <span><strong class="two text">Email:</strong><span class="placeholder two text">Placeholder Email</span></span>
+                    <hr/>
+                    <span><strong class="three text">Phone:</strong><span class="placeholder three text">Placeholder Phone</span></span>
+                    <hr/>
+                    <span><strong class="four text">Mobile:</strong><span class="placeholder four text">Placeholder Mobile</span></span>
+                    <hr/>
+                    <span><strong class="five text">Address:</strong><span class="placeholder five text">Placeholder Address</span></span>
                 </div>
+                
                 <div class="column-row">
-                    <div class="template-box bottom-box"></div>
-                    <div class="template-box bottom-box"></div>
+                    <div class="template-box bottom-box">
+                        <span>Buttons</span>
+                        <div class="content">
+                            <div class="row">
+                                <button class="one">Button 1</button>
+                                <button class="two">Button 2</button>
+                            </div>
+                            <div class="row">
+                                <button class="three">Button 3</button>
+                                <button class="four">Button 4</button>
+                            </div>
+                            <div class="row">
+                                <button class="five">Button 5</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-box bottom-box">
+                        <span>Navbar</span>
+                        <div class="content">
+                            <nav id="navbar">
+                                <ul>
+                                    <li><a class="nav-link four">Link</a></li>
+                                    <li class="dropdown">
+                                        <a class="nav-link dropdown-toggle four">Dropdown <i class='bx bxs-down-arrow' ></i></a>
+                                        <ul class="dropdown-menu">
+                                          <li class="three"><a>Item 1</a></li>
+                                          <li class="three"><a>Item 2</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,5 +102,19 @@
     <script src="https://cdn.jsdelivr.net/npm/onecolor@3.1.0/one-color-all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/colorjoe@1.0.2/dist/colorjoe.min.js"></script>
     <script src="/script.js"></script>
+    <script>
+        document.querySelector('.dropdown-toggle').addEventListener('click', function (e) {
+          e.preventDefault();
+          const dropdown = this.parentElement;
+          dropdown.classList.toggle('active');
+        });
+      
+        window.addEventListener('click', function (e) {
+          const dropdown = document.querySelector('.dropdown');
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+          }
+        });
+    </script>
 </body>
 </html>

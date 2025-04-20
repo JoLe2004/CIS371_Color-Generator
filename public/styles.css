@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #191919;
+    background-color: #000211;
     font-family: Arial, sans-serif;
 }
 
@@ -82,11 +82,11 @@ nav a.accent-link {
     display: none;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
     #open-sidebar-button, #close-sidebar-button{
         display: block;
     }
-    nav {
+    nav.main {
         position: fixed;
         top: 0;
         right: -100%;
@@ -96,24 +96,24 @@ nav a.accent-link {
         border-left: 1px solid #272832;
         transition: right 300ms ease-out;
     }
-    nav.show {
+    nav.main.show {
         right: 0;
     }
-    nav.show ~ #overlay {
+    nav.main.show ~ #overlay {
         display: block;
     }
-    nav ul {
+    nav.main ul {
         width: 100%;
         flex-direction: column;
     }
-    nav a {
+    nav.main a {
         width: 100%;
         padding-left: 2.5em;
     }
-    nav a.active-link {
+    nav.main a.active-link {
         border-bottom: none;
     }
-    nav .home-li {
+    nav.main .home-li {
         margin-right: unset;
     }
 }
@@ -130,7 +130,7 @@ nav a.accent-link {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    align-items: center;;
 }
 
 .color {
@@ -152,111 +152,6 @@ nav a.accent-link {
     opacity: 0;
     transition: opacity 1s ease;
     text-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
-
-@media (max-width: 1500px) {
-    .color-container {
-        width: 200px;
-    }
-    .color {
-        width: 200px;
-        height: 150px;
-    }
-    span {
-        display: none;
-    }
-
-    .color:hover {
-        transform: scale(1.05);
-        z-index: 1;
-    }
-
-    .color:hover .color-text {
-        display: inline;
-        opacity: 1;
-    }
-}
-
-@media (max-width: 1250px) {
-    .color-container {
-        width: 200px;
-    }
-    .color {
-        width: 200px;
-    }
-    
-    #picker {
-        top: 25%;
-        left: 50%;
-        margin-left: -9.5em;
-        z-index: 2;
-        margin-top: 0;
-    }
-}
-
-@media (max-width: 1000px) {
-    .color-container {
-        width: 150px;
-    }
-    .color {
-        width: 150px;
-        height: 100px;
-    }
-}
-
-@media (max-width: 750px) {
-    .color-container {
-        width: 100px;
-    }
-    .color {
-        width: 100px;
-        height: 66px;
-    }
-}
-
-@media (max-width: 500px) {
-    .color-container {
-        width: 75px;
-    }
-    .color {
-        width: 75px;
-        height: 60px;
-    }
-
-    .color .color-text {
-        font-size: 15px;
-    }
-
-    .color-container .row {
-        margin: 0;
-    }
-
-    .tool {
-        font-size: 10px;
-    }
-
-    .row i {
-        font-size: 15px;
-    }
-
-    #generate, .back, form button, .logout-button {
-        width: 100px; 
-        height: 25px;
-        font-size: 8px;
-    }
-}
-
-@media (max-width: 380px) {
-    .color-container {
-        width: 60px;
-    }
-    .color {
-        width: 60px;
-        height: 40px;
-    }
-    .row i {
-        font-size: 12px;
-    }
 }
 
 .color-overlay {
@@ -349,17 +244,6 @@ button:hover {
     border: 1px solid #fff;
 }
 
-.glass-container::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    z-index: -1;
-}
-
 .login-box {
     max-width: 250px;
     margin: 0 auto;
@@ -434,14 +318,22 @@ h2 {
 
 /* Icon Styles */
 i {
-    font-size: 20px;
+    font-size: 19px;
 }
 
 
 /* Settings Styles */
+.settings-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .user-info {
-    margin: 2em;
+    display: flex;
+    flex-direction: column;
     color: white;
+    margin: 2em;
+    gap: 10px;
 }
 
 /* Template Styles */
@@ -449,41 +341,52 @@ i {
     display: flex;
     justify-content: center;
     margin-top: 5em;
-    background-color: wheat;
+    background-color: #444;
+    flex-wrap: wrap;
+    padding: 1em;
 }
 
 #template-content {
     display: flex;
-    margin: 3em;
+    flex-wrap: wrap;
+    margin: 2em;
     gap: 1em;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .column {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1em;
+    flex: 1 1 300px;
 }
 
 .column-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
+    justify-content: center;
+
 }
 
 .template-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30em;
-    height: 12.5em;
-    background-color: black;
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    background-color: #DFDFDF;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-    padding-top: 2em;
+    padding: 2em 1em;
 }
 
 .top-box {
     display: flex;
-    align-items: first baseline;
     width: 100%;
     height: 50%;
     align-self: center;
@@ -494,12 +397,12 @@ i {
 }
 
 .template-box.profile{
-    height: 25em;
+    height: auto;
 }
 
 .profile-picture {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     background-color: white;
     border-radius: 50%;
     background-image: url('https://cdn-icons-png.flaticon.com/512/149/149071.png');
@@ -510,14 +413,319 @@ i {
 }
 
 .profile-username {
-    margin: 0.5em;
+    font-size: 1.5em;
     font-weight: bold;
-    font-size: 2em;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    text-align: center;
 }
 
 .profile-text {
     margin: 1em;
     font-size: 1em;
     text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.message {
+    color: #EEE;
+    background-color: darkblue;
+}
+
+.follow {
+    border: 2px solid #444;
+    background-color: #EEE;
+}
+
+.template-box.bio {
+    padding: 1.25em;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75em;
+}
+
+.template-box.bio span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.template-box.bio i {
+    margin-right: 0.5em;
+}
+
+.template-box.bio .label {
+    flex-grow: 1;
+    white-space: nowrap;
+}
+
+.bio-link {
+    white-space: nowrap;
+    color: #ddd;
+    font-size: 0.95em;
+    text-align: right;
+}
+
+.template-box.top-box {
+    padding: 1.25em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+}
+
+.template-box.top-box span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    font-size: 1.25em;
+    gap: 3em;
+}
+
+.template-box.top-box strong {
+    min-width: 8em; 
+    text-align: left;
+}
+
+.placeholder {
+    margin-left: auto;
+    text-align: left;
+}
+
+#template-content .column .column-row span {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.template-box.bottom-box {
+    padding: 1em;
+}
+
+.template-box.bottom-box .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+ .template-box.bottom-box span {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+}
+
+.template-box.bottom-box button {
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #444;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
+}
+
+.dropdown-menu li a {
+    display: block;
+    width: 100%
+}
+
+.dropdown-menu li a:hover {
+    background-color: #555;
+}
+
+.dropdown.active .dropdown-menu {
+    display: block;
+}
+
+.dropdown-toggle i {
+    font-size: 1em;
+}
+
+hr {
+    border-top: 1px solid gray;
+    width: 100%;
+}
+
+#name-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1em;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    backdrop-filter: blur(5px);
+    margin-bottom: 1em;
+}
+
+#name-input:focus {
+    outline: none;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.info {
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-top: 4em;
+    padding: 1.5em;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: #eee;
+    font-size: 1em;
+    line-height: 2;
+}
+
+.info h1 {
+    font-size: 1.5em;
+    margin-bottom: 0.75em;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.info ul {
+    margin-bottom: 0.75em;
+    margin-left: 1em;
+}
+
+@media (max-width: 1500px) {
+    .color-container {
+        width: 200px;
+    }
+    .color {
+        width: 200px;
+        height: 150px;
+    }
+    .hexcode {
+        display: none;
+    }
+
+    .color:hover {
+        transform: scale(1.05);
+        z-index: 1;
+    }
+
+    .color:hover .color-text {
+        display: inline;
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1250px) {
+    .color-container {
+        width: 200px;
+    }
+    .color {
+        width: 200px;
+    }
+    
+    #picker {
+        top: 25%;
+        left: 50%;
+        margin-left: -9.5em;
+        z-index: 2;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 1000px) {
+    .color-container {
+        width: 150px;
+    }
+    .color {
+        width: 150px;
+        height: 100px;
+    }
+
+    .template-box.bottom-box button {
+        width: 125px;
+    }
+}
+
+@media (max-width: 750px) {
+    .color-container {
+        width: 100px;
+    }
+    .color {
+        width: 100px;
+        height: 66px;
+    }
+
+    .info-container {
+        display: flex;
+        justify-content: center;
+    }
+    .info {
+        width: 300px;
+    }
+
+    .info-container .info h1 {
+        font-size: 0.75em;
+    }
+
+    .info ul {
+        font-size: 0.5em;
+    }
+}
+
+@media (max-width: 500px) {
+    .color-container {
+        width: 75px;
+    }
+    .color {
+        width: 75px;
+        height: 60px;
+    }
+
+    .color .color-text {
+        font-size: 15px;
+    }
+
+    .color-container .row {
+        margin: 0;
+    }
+
+    .tool {
+        font-size: 10px;
+    }
+
+    .row i {
+        font-size: 15px;
+    }
+
+    .template-box.bottom-box button {
+        width: 100px;
+    }
+
+    #generate, .back, form button, .logout-button {
+        width: 100px; 
+        height: 25px;
+        font-size: 8px;
+    }
+
+    .template-box.top-box .placeholder, .template-box.top-box strong, .template-box text {
+        font-size: .75em;
+    }
+}
+
+@media (max-width: 380px) {
+    .color-container {
+        width: 60px;
+    }
+    .color {
+        width: 60px;
+        height: 40px;
+    }
+    .row i {
+        font-size: 12px;
+    }
 }
