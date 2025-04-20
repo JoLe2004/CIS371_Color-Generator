@@ -17,15 +17,15 @@
     <div class="settings-page">
         <div class="user-info">
             <form action="/settings" method="POST">
-                <h1 style="margin: 0.5em">Username</h1>
-                <input class="login-input" type="text" name='username' value="<%= user.username %>" style="margin: 0;"/>
-                <h1 style="margin: 0.5em; margin-top: 1.5em;">Password</h1>
-                <input class="login-input" type="text" name='password' value="<%= user.password %>" style="margin: 0; margin-bottom: 1.75em;"/>
-                <button type="submit" style="margin-top: 3em; margin-left: 1.33em;">Update Settings</button>
+                <h1>Username</h1>
+                <input type="text" name='username' value="<%= user.username %>"/>
+                <h1>Password</h1>
+                <input type="text" name='password' value="<%= user.password %>"/>
+                <button type="submit">Update Settings</button>
             </form>
-            <button onclick="location.href='/logout'" class="logout-button" style="margin-left: 1.33em;">Logout</button>
+            <button onclick="location.href='/logout'" class="logout-button">Logout</button>
             <form action="/settings?_method=DELETE" method="POST">
-                <button type="submit" style="margin-left: 1.33em;">Delete Account</button>
+                <button type="submit">Delete Account</button>
             </form>
         </div>
     </div>
