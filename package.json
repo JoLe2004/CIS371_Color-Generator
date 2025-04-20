@@ -20,6 +20,7 @@
   "homepage": "https://github.com/JoLe2004/CIS371_Color-Generator#readme",
   "dependencies": {
     "colorjoe": "^4.2.0",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",

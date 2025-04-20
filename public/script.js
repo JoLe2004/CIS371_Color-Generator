@@ -12,10 +12,11 @@ function toggleSidebar() {
 async function generate() {
     try {
         const input = lockedColors.map((locked, i) => locked ? [parseInt(colorList[i].slice(1, 3), 16), parseInt(colorList[i].slice(3, 5), 16), parseInt(colorList[i].slice(5, 7), 16)] : "N");
-        const response = await fetch("http://colormind.io/api/",
-            {method: "POST", 
-             body: JSON.stringify({model: model, input: input})
-            })
+        const response = await fetch("/api/colormind", {
+            method: "POST", 
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({model: model, input: input})
+        });
         
         let result = await response.json()
         result = result["result"]

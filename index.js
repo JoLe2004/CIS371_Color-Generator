@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session')
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const PaletteController = require('./controllers/PaletteController')
 const UserController = require('./controllers/UserController')
 const LoginController = require('./controllers/LoginController')
@@ -16,7 +17,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.SECRET,
-    cookie: { maxAge: 30 * 60 * 10000 }
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    cookie: { maxAge: 5 * 60 * 1000 }
 }))
 function isAuthenticated(req, res, next) {
     if (req.session.user) {
@@ -110,6 +112,21 @@ app.delete('/settings', isAuthenticated, (req, res) => {
 // Color Guess
 app.get('/color_guess', (req, res) => {
     res.render("colorGuess", { page: 'colorGuess', showSettings: req.session.user != undefined });
+});
+
+
+// Proxy to bypass HTTP to HTTPS 
+app.post('/api/colormind', async (req, res) => {
+    try {
+        const response = await fetch('http://colormind.io/api/', {
+            method: 'POST',
+            body: JSON.stringify(req.body)
+        });
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to fetch colors from Colormind' });
+    }
 });
 
 
